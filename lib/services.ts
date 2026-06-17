@@ -26,7 +26,7 @@ Our experienced lawyers handle every step of the process: gathering the required
     longDescriptionES: `El NIE (Número de Identificación de Extranjero) es el número de identificación extranjero de España, un requisito obligatorio para prácticamente cualquier actividad legal y financiera en el país. Ya sea que compres una propiedad, abras una cuenta bancaria, firmes un contrato de empleo o registres un vehículo, necesitarás tu NIE.
 
 Nuestros abogados con experiencia se encargan de cada paso del proceso: reunir la documentación requerida, completar los formularios oficiales, reservar citas en la Comisaría o el Consulado y acompañarte durante la solicitud.`,
-    price: 149,
+    price: 199,
     duration: "2–4 weeks",
     featuresEN: [
       "Full documentation review and preparation",
@@ -58,7 +58,7 @@ Our team of immigration lawyers specializes in initial work permit applications,
     longDescriptionES: `Un permiso de trabajo español otorga a los ciudadanos no comunitarios el derecho legal a trabajar en España como empleado o profesional autónomo. Sin él, trabajar en España es ilegal y puede resultar en sanciones graves tanto para ti como para tu empleador.
 
 Nuestro equipo de abogados de inmigración está especializado en solicitudes de permisos de trabajo iniciales, renovaciones, modificaciones y recursos contra denegaciones.`,
-    price: 599,
+    price: 1199,
     duration: "2–4 months",
     featuresEN: [
       "Initial consultation and permit category assessment",
@@ -90,7 +90,7 @@ We guide you through every type of residence permit: non-lucrative residence (fo
     longDescriptionES: `Un permiso de residencia español es tu puerta de entrada para construir una vida en España. Permite a los ciudadanos no comunitarios residir legalmente en España durante más de 90 días y es la base para acceder a los servicios públicos, la sanidad, la educación y, eventualmente, la residencia permanente y la nacionalidad.
 
 Te guiamos en cada tipo de permiso de residencia: residencia no lucrativa, reagrupación familiar, residencia de larga duración UE y la TIE.`,
-    price: 499,
+    price: 999,
     duration: "1–3 months",
     featuresEN: [
       "Residence category analysis and recommendation",
@@ -120,7 +120,7 @@ Te guiamos en cada tipo de permiso de residencia: residencia no lucrativa, reagr
 
 This visa is increasingly popular among American, British, and international professionals who want to enjoy Spain's quality of life while continuing to work with their existing clients and employers abroad. Our lawyers handle the complex documentation, financial proof requirements, and consular appointments.`,
     longDescriptionES: `La Visa de Nómada Digital de España, introducida por la Ley de Startups, está diseñada específicamente para trabajadores remotos, freelancers y emprendedores que trabajan para empresas o clientes extranjeros. Ofrece una estancia inicial de 1 año, ampliable hasta 5 años, y permite acceder al régimen fiscal de la Ley Beckham — un tipo fijo del 24% de IRPF durante los primeros 6 años.`,
-    price: 799,
+    price: 920,
     duration: "6–10 weeks",
     featuresEN: [
       "Eligibility assessment for you and your dependants",
@@ -152,7 +152,7 @@ Our nationality specialists have helped thousands of clients obtain Spanish citi
     longDescriptionES: `Adquirir la nacionalidad española es una de las decisiones más valiosas de tu vida: te otorga un pasaporte de la UE, el derecho a vivir y trabajar en 27 países europeos y acceso a educación y sanidad de primer nivel. España ofrece varias vías: por residencia (10 años general, 2 años para iberoamericanos y judíos sefardíes), por origen y por matrimonio.
 
 Nuestros especialistas en nacionalidad han ayudado a miles de clientes a obtener la ciudadanía española. Preparamos una solicitud completa y la tramitamos a través de la plataforma electrónica MJUS hasta la aprobación final.`,
-    price: 999,
+    price: 899,
     duration: "12–18 months",
     featuresEN: [
       "Full residency history review and eligibility check",
