@@ -29,7 +29,7 @@ export const translations = {
       heroCta: "View Our Services",
       heroSecondary: "Book a Free Consultation",
       statsClients: "Clients Served",
-      statsSuccess: "Success Rate",
+      statsSuccess: "Satisfaction Rate",
       statsLawyers: "Expert Lawyers",
       statsYears: "Years of Experience",
       servicesTitle: "Immigration Services",

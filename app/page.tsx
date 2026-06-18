@@ -14,8 +14,8 @@ interface HomeProps {
 const stats = [
   { valueEN: "15,000+", valueES: "15.000+", labelKey: "statsClients" as const },
   { valueEN: "98%", valueES: "98%", labelKey: "statsSuccess" as const },
-  { valueEN: "20+", valueES: "20+", labelKey: "statsLawyers" as const },
-  { valueEN: "10+", valueES: "10+", labelKey: "statsYears" as const },
+  { valueEN: "15+", valueES: "15+", labelKey: "statsLawyers" as const },
+  { valueEN: "20+", valueES: "20+", labelKey: "statsYears" as const },
 ];
 
 const testimonials = [
