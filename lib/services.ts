@@ -26,7 +26,7 @@ Our experienced lawyers handle every step of the process: gathering the required
     longDescriptionES: `El NIE (Número de Identificación de Extranjero) es el número de identificación extranjero de España, un requisito obligatorio para prácticamente cualquier actividad legal y financiera en el país. Ya sea que compres una propiedad, abras una cuenta bancaria, firmes un contrato de empleo o registres un vehículo, necesitarás tu NIE.
 
 Nuestros abogados con experiencia se encargan de cada paso del proceso: reunir la documentación requerida, completar los formularios oficiales, reservar citas en la Comisaría o el Consulado y acompañarte durante la solicitud.`,
-    price: 1,
+    price: 199,
     duration: "2–4 weeks",
     featuresEN: [
       "Full documentation review and preparation",
