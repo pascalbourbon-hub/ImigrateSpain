@@ -60,6 +60,7 @@ export default function Navbar({ lang }: NavbarProps) {
             {navLink("/", t.home)}
             {navLink("/services", t.services)}
             {navLink("/about", t.about)}
+            {navLink("/blog", t.blog)}
             {navLink("/contact", t.contact)}
           </div>
 
@@ -113,6 +114,7 @@ export default function Navbar({ lang }: NavbarProps) {
           {navLink("/", t.home)}
           {navLink("/services", t.services)}
           {navLink("/about", t.about)}
+          {navLink("/blog", t.blog)}
           {navLink("/contact", t.contact)}
           <Link
             href={lang === "es" ? "/contact?lang=es" : "/contact"}

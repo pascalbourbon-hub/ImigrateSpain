@@ -68,6 +68,11 @@ export default function Footer({ lang }: FooterProps) {
                 </Link>
               </li>
               <li>
+                <Link href={`/blog${langParam}`} className="text-slate-400 hover:text-amber-400 text-sm transition-colors">
+                  {lang === "es" ? "Blog" : "Blog"}
+                </Link>
+              </li>
+              <li>
                 <Link href={`/contact${langParam}`} className="text-slate-400 hover:text-amber-400 text-sm transition-colors">
                   {t.contact}
                 </Link>

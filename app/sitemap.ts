@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { services } from "@/lib/services";
+import { posts } from "@/lib/posts";
 
 const siteUrl = "https://imigrate-spain.vercel.app";
 
@@ -31,6 +32,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    {
+      url: `${siteUrl}/blog`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
   ];
 
   const serviceRoutes: MetadataRoute.Sitemap = services.map((service) => ({
@@ -40,5 +47,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...serviceRoutes];
+  const blogRoutes: MetadataRoute.Sitemap = posts.map((post) => ({
+    url: `${siteUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.dateISO),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...serviceRoutes, ...blogRoutes];
 }
