@@ -33,13 +33,13 @@ const lawyers = [
   },
   {
     name: "Martina Albero Pes",
-    roleEN: "Immigration Legal Specialist",
-    roleES: "Especialista Jurídica en Inmigración",
-    bioEN: "Martina specialises in residence permits and Digital Nomad visa applications for international professionals. Her meticulous approach to documentation and deadlines ensures smooth, stress-free processes for every client.",
-    bioES: "Martina se especializa en permisos de residencia y visados de nómada digital para profesionales internacionales. Su meticuloso enfoque en la documentación y los plazos garantiza procesos fluidos y sin estrés para cada cliente.",
+    roleEN: "Immigration & International Law Specialist",
+    roleES: "Especialista en Inmigración y Derecho Internacional",
+    bioEN: "Martina holds a Law degree from the Autonomous University of Barcelona with further specialisation in European and public international law at Université Toulouse Capitole. She advises international professionals on residence permits and Digital Nomad visas, combining rigorous legal training with a French-speaking capability that serves clients across Europe.",
+    bioES: "Martina es licenciada en Derecho por la Universidad Autónoma de Barcelona, con especialización adicional en derecho europeo e internacional público en la Université Toulouse Capitole. Asesora a profesionales internacionales en permisos de residencia y visados de nómada digital, combinando una rigurosa formación jurídica con el dominio del francés para atender a clientes en toda Europa.",
     specialtyEN: "Residence Permits & Digital Nomad Visa",
     specialtyES: "Permisos de Residencia y Visa Nómada Digital",
-    languages: "Spanish, Catalan, English",
+    languages: "Spanish, Catalan, French, English",
     emoji: "👩‍⚖️",
   },
   {
