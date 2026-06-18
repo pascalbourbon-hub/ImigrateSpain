@@ -1,8 +1,16 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { translations, Lang } from "@/lib/translations";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "About Our Immigration Lawyers in Spain",
+  description:
+    "Meet the ImmigrationSpain team — specialist immigration and foreign nationals lawyers serving over 80 nationalities in English and Spanish with a 98% success rate.",
+  alternates: { canonical: "/about" },
+};
 
 interface AboutPageProps {
   searchParams: Promise<{ lang?: string }>;

@@ -1,11 +1,21 @@
 import { Suspense } from "react";
-import { redirect } from "next/navigation";
+import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import ServiceCard from "@/components/ServiceCard";
+import JsonLd from "@/components/JsonLd";
 import { services } from "@/lib/services";
 import { translations, Lang } from "@/lib/translations";
+
+const siteUrl = "https://imigrate-spain.vercel.app";
+
+export const metadata: Metadata = {
+  title: "Expert Immigration Lawyers in Spain — NIE, Visas & Nationality",
+  description:
+    "ImmigrationSpain is Spain's most trusted immigration law firm. Get help with NIE Certificate, Work Permit, Residence Permit, Digital Nomad Visa and Spanish Nationality at transparent fixed prices.",
+  alternates: { canonical: "/" },
+};
 
 interface HomeProps {
   searchParams: Promise<{ lang?: string }>;
@@ -234,8 +244,62 @@ function HomeContent({ lang }: { lang: Lang }) {
 export default async function Home({ searchParams }: HomeProps) {
   const params = await searchParams;
   const lang: Lang = params.lang === "es" ? "es" : "en";
+
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    name: "ImmigrationSpain",
+    url: siteUrl,
+    description:
+      "Spain's most trusted immigration law firm, helping international clients with NIE certificates, work permits, residence permits, the Digital Nomad Visa and Spanish nationality.",
+    areaServed: {
+      "@type": "Country",
+      name: "Spain",
+    },
+    availableLanguage: ["English", "Spanish"],
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Calle Serrano 41, 4ª planta",
+      postalCode: "28001",
+      addressLocality: "Madrid",
+      addressCountry: "ES",
+    },
+    telephone: "+34 91 123 4567",
+    email: "info@immigrationspain.es",
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Immigration Services",
+      itemListElement: services.map((service) => ({
+        "@type": "Offer",
+        priceCurrency: "EUR",
+        price: service.price,
+        itemOffered: {
+          "@type": "Service",
+          name: service.nameEN,
+          description: service.descriptionEN,
+          url: `${siteUrl}/services/${service.slug}`,
+        },
+      })),
+    },
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: lang === "es" ? faq.qES : faq.qEN,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: lang === "es" ? faq.aES : faq.aEN,
+      },
+    })),
+  };
+
   return (
     <Suspense>
+      <JsonLd data={organizationSchema} />
+      <JsonLd data={faqSchema} />
       <HomeContent lang={lang} />
     </Suspense>
   );

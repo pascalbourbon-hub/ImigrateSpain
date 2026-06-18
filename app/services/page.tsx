@@ -1,9 +1,17 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ServiceCard from "@/components/ServiceCard";
 import { services } from "@/lib/services";
 import { translations, Lang } from "@/lib/translations";
+
+export const metadata: Metadata = {
+  title: "Immigration Services & Fixed Prices in Spain",
+  description:
+    "Explore our full range of Spanish immigration services: NIE Certificate, Work Permit, Residence Permit, Digital Nomad Visa and Spanish Nationality — each with a transparent, all-inclusive fixed price.",
+  alternates: { canonical: "/services" },
+};
 
 interface ServicesPageProps {
   searchParams: Promise<{ lang?: string }>;

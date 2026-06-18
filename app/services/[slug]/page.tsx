@@ -1,11 +1,15 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BuyButton from "@/components/BuyButton";
+import JsonLd from "@/components/JsonLd";
 import { getServiceBySlug, services } from "@/lib/services";
 import { translations, Lang } from "@/lib/translations";
+
+const siteUrl = "https://imigrate-spain.vercel.app";
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
@@ -14,6 +18,43 @@ interface ServicePageProps {
 
 export async function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
+}
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: ServicePageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const sp = await searchParams;
+  const lang: Lang = sp.lang === "es" ? "es" : "en";
+  const service = getServiceBySlug(slug);
+
+  if (!service) {
+    return { title: "Service Not Found" };
+  }
+
+  const name = lang === "es" ? service.nameES : service.nameEN;
+  const description = lang === "es" ? service.descriptionES : service.descriptionEN;
+  const title = `${name} in Spain — €${service.price} Fixed Fee | Lawyers`;
+  const canonical = `/services/${service.slug}`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      type: "website",
+      title: `${name} | ImmigrationSpain`,
+      description,
+      url: `${siteUrl}${canonical}`,
+      locale: lang === "es" ? "es_ES" : "en_US",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${name} | ImmigrationSpain`,
+      description,
+    },
+  };
 }
 
 function ServiceContent({
@@ -211,8 +252,40 @@ export default async function ServicePage({ params, searchParams }: ServicePageP
   const success = sp.success === "true";
   const cancelled = sp.cancelled === "true";
 
+  const service = getServiceBySlug(slug);
+  if (!service) notFound();
+
+  const name = lang === "es" ? service.nameES : service.nameEN;
+  const description = lang === "es" ? service.descriptionES : service.descriptionEN;
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name,
+    description,
+    serviceType: service.nameEN,
+    url: `${siteUrl}/services/${service.slug}`,
+    areaServed: {
+      "@type": "Country",
+      name: "Spain",
+    },
+    provider: {
+      "@type": "LegalService",
+      name: "ImmigrationSpain",
+      url: siteUrl,
+    },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "EUR",
+      price: service.price,
+      url: `${siteUrl}/services/${service.slug}`,
+      availability: "https://schema.org/InStock",
+    },
+  };
+
   return (
     <Suspense>
+      <JsonLd data={serviceSchema} />
       <ServiceContent lang={lang} slug={slug} success={success} cancelled={cancelled} />
     </Suspense>
   );
