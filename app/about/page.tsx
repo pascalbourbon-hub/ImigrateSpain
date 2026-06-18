@@ -146,10 +146,10 @@ function AboutContent({ lang }: { lang: Lang }) {
                   </div>
                   <div className="text-center">
                     <div className="text-amber-400 font-extrabold text-3xl">98%</div>
-                    <div className="text-slate-500 text-sm mt-1">{lang === "es" ? "éxito" : "success"}</div>
+                    <div className="text-slate-500 text-sm mt-1">{lang === "es" ? "satisfacción" : "satisfaction"}</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-amber-400 font-extrabold text-3xl">10+</div>
+                    <div className="text-amber-400 font-extrabold text-3xl">20+</div>
                     <div className="text-slate-500 text-sm mt-1">{lang === "es" ? "años" : "years"}</div>
                   </div>
                 </div>
