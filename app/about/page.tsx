@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { translations, Lang } from "@/lib/translations";
 import Link from "next/link";
+import LawyerAvatar from "@/components/LawyerAvatar";
 
 export const metadata: Metadata = {
   title: "About Our Immigration Lawyers in Spain",
@@ -26,6 +27,7 @@ const lawyers = [
     specialtyEN: "Immigration & Foreign Nationals Law",
     specialtyES: "Derecho de Extranjería e Inmigración",
     languages: "Spanish, Catalan, English",
+    photo: "/team/alejandro-esquerra.jpg",
     emoji: "👨‍⚖️",
   },
   {
@@ -37,6 +39,7 @@ const lawyers = [
     specialtyEN: "Residency, Nationality & Human Rights",
     specialtyES: "Residencia, Nacionalidad y Derechos Humanos",
     languages: "Spanish, Catalan, English",
+    photo: "/team/marina-cortasa.jpg",
     emoji: "👩‍⚖️",
   },
   {
@@ -48,6 +51,7 @@ const lawyers = [
     specialtyEN: "Residence Permits & Digital Nomad Visa",
     specialtyES: "Permisos de Residencia y Visa Nómada Digital",
     languages: "Spanish, Catalan, French, English",
+    photo: "/team/martina-albero.jpg",
     emoji: "👩‍⚖️",
   },
   {
@@ -59,6 +63,7 @@ const lawyers = [
     specialtyEN: "Work Permits, NIE & Global Mobility",
     specialtyES: "Permisos de Trabajo, NIE y Movilidad Global",
     languages: "Spanish, Catalan, English, Italian",
+    photo: "/team/claudia-gibernau.jpg",
     emoji: "👩‍⚖️",
   },
   {
@@ -70,6 +75,7 @@ const lawyers = [
     specialtyEN: "Residency & NIE for Francophone Clients",
     specialtyES: "Residencia y NIE para Clientes Francófonos",
     languages: "French, Spanish, Catalan",
+    photo: "/team/greta-berger.jpg",
     emoji: "👩‍⚖️",
   },
   {
@@ -81,6 +87,7 @@ const lawyers = [
     specialtyEN: "Global Mobility & International Relocation",
     specialtyES: "Movilidad Global y Reubicación Internacional",
     languages: "Spanish, Italian, English",
+    photo: "/team/cristina-cirillo.jpg",
     emoji: "👩‍⚖️",
   },
 ];
@@ -189,9 +196,7 @@ function AboutContent({ lang }: { lang: Lang }) {
               {lawyers.map((lawyer, i) => (
                 <div key={i} className="bg-slate-800 border border-slate-700/50 rounded-2xl p-6 hover:border-amber-500/30 transition-colors">
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="w-14 h-14 bg-amber-500/10 border border-amber-500/20 rounded-full flex items-center justify-center text-3xl">
-                      {lawyer.emoji}
-                    </div>
+                    <LawyerAvatar photo={lawyer.photo} name={lawyer.name} emoji={lawyer.emoji} />
                     <div>
                       <h3 className="text-white font-bold">{lawyer.name}</h3>
                       <div className="text-amber-400 text-sm">
