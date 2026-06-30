@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import InstallPrompt from "@/components/InstallPrompt";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -39,6 +40,15 @@ export const metadata: Metadata = {
     title: defaultTitle,
     description: defaultDescription,
   },
+  appleWebApp: {
+    capable: true,
+    title: "ImmigSpain",
+    statusBarStyle: "black-translucent",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0F172A",
 };
 
 export default function RootLayout({
@@ -50,6 +60,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.className} h-full`}>
       <body className="min-h-full flex flex-col bg-slate-900 text-slate-100 antialiased">
         {children}
+        <InstallPrompt />
       </body>
     </html>
   );
