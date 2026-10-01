@@ -35,6 +35,7 @@ export const posts: Post[] = [
     categoryEN: "Visas",
     categoryES: "Visados",
     serviceSlug: "digital-nomad-visa",
+    authorId: "claudia-gibernau",
     bodyEN: [
       {
         type: "p",
