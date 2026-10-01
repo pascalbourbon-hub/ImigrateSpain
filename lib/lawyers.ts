@@ -94,6 +94,6 @@ export const lawyers: Lawyer[] = [
   },
 ];
 
-export function getLawyerById(id: string): Lawyer | undefined {
+export function getLawyerById(id: string | undefined): Lawyer | undefined {
   return lawyers.find((l) => l.id === id);
 }
