@@ -37,9 +37,8 @@ const strings = {
 
 function getLang(): "en" | "es" {
   if (typeof window === "undefined") return "en";
-  return new URLSearchParams(window.location.search).get("lang") === "es"
-    ? "es"
-    : "en";
+  // <html lang> is set by the root layout from the /es/ URL prefix.
+  return document.documentElement.lang === "es" ? "es" : "en";
 }
 
 function isStandalone(): boolean {

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { translations, Lang } from "@/lib/translations";
+import { localePath } from "@/lib/i18n";
 
 interface HeroProps {
   lang: Lang;
@@ -7,7 +8,6 @@ interface HeroProps {
 
 export default function Hero({ lang }: HeroProps) {
   const t = translations[lang].home;
-  const langParam = lang === "es" ? "?lang=es" : "";
 
   return (
     <section className="relative bg-slate-900 overflow-hidden">
@@ -52,7 +52,7 @@ export default function Hero({ lang }: HeroProps) {
               {t.heroCta}
             </Link>
             <Link
-              href={`/contact${langParam}`}
+              href={localePath(lang, `/contact`)}
               className="bg-slate-800 hover:bg-slate-700 text-white font-semibold text-base px-8 py-4 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors text-center"
             >
               {t.heroSecondary}

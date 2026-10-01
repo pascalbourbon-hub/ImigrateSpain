@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { services } from "@/lib/services";
@@ -123,7 +122,6 @@ function ContactForm({ lang }: { lang: Lang }) {
 
 function ContactContent({ lang }: { lang: Lang }) {
   const t = translations[lang].contact;
-  const langParam = lang === "es" ? "?lang=es" : "";
 
   return (
     <div className="flex flex-col flex-1">
@@ -228,16 +226,6 @@ function ContactContent({ lang }: { lang: Lang }) {
   );
 }
 
-function ContactWrapper() {
-  const searchParams = useSearchParams();
-  const lang: Lang = searchParams.get("lang") === "es" ? "es" : "en";
+export default function ContactClient({ lang }: { lang: Lang }) {
   return <ContactContent lang={lang} />;
-}
-
-export default function ContactClient() {
-  return (
-    <Suspense>
-      <ContactWrapper />
-    </Suspense>
-  );
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { translations, Lang } from "@/lib/translations";
 import { services } from "@/lib/services";
+import { localePath } from "@/lib/i18n";
 
 interface FooterProps {
   lang: Lang;
@@ -8,7 +9,6 @@ interface FooterProps {
 
 export default function Footer({ lang }: FooterProps) {
   const t = translations[lang].footer;
-  const langParam = lang === "es" ? "?lang=es" : "";
 
   return (
     <footer className="bg-slate-950 border-t border-slate-800">
@@ -16,7 +16,7 @@ export default function Footer({ lang }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand column */}
           <div className="md:col-span-2">
-            <Link href={`/${langParam}`} className="flex items-center gap-2 mb-4">
+            <Link href={localePath(lang, `/`)} className="flex items-center gap-2 mb-4">
               <span className="text-amber-400 text-2xl">⚖️</span>
               <span className="font-bold text-white text-xl">
                 Immigration<span className="text-amber-400">Spain</span>
@@ -48,7 +48,7 @@ export default function Footer({ lang }: FooterProps) {
               {services.map((s) => (
                 <li key={s.slug}>
                   <Link
-                    href={`/services/${s.slug}${langParam}`}
+                    href={localePath(lang, `/services/${s.slug}`)}
                     className="text-slate-400 hover:text-amber-400 text-sm transition-colors"
                   >
                     {lang === "es" ? s.nameES : s.nameEN}
@@ -63,17 +63,17 @@ export default function Footer({ lang }: FooterProps) {
             <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">{t.company}</h3>
             <ul className="space-y-2">
               <li>
-                <Link href={`/about${langParam}`} className="text-slate-400 hover:text-amber-400 text-sm transition-colors">
+                <Link href={localePath(lang, `/about`)} className="text-slate-400 hover:text-amber-400 text-sm transition-colors">
                   {t.about}
                 </Link>
               </li>
               <li>
-                <Link href={`/blog${langParam}`} className="text-slate-400 hover:text-amber-400 text-sm transition-colors">
+                <Link href={localePath(lang, `/blog`)} className="text-slate-400 hover:text-amber-400 text-sm transition-colors">
                   {lang === "es" ? "Blog" : "Blog"}
                 </Link>
               </li>
               <li>
-                <Link href={`/contact${langParam}`} className="text-slate-400 hover:text-amber-400 text-sm transition-colors">
+                <Link href={localePath(lang, `/contact`)} className="text-slate-400 hover:text-amber-400 text-sm transition-colors">
                   {t.contact}
                 </Link>
               </li>

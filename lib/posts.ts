@@ -15,6 +15,8 @@ export interface Post {
   categoryES: string;
   /** Slug of the related service for the closing CTA. */
   serviceSlug: string;
+  /** Lawyer id from lib/lawyers.ts — shown as the byline and in the BlogPosting schema. */
+  authorId: string;
   bodyEN: ContentBlock[];
   bodyES: ContentBlock[];
 }
@@ -33,6 +35,7 @@ export const posts: Post[] = [
     categoryEN: "Visas",
     categoryES: "Visados",
     serviceSlug: "digital-nomad-visa",
+    authorId: "martina-albero",
     bodyEN: [
       {
         type: "p",
@@ -167,6 +170,7 @@ export const posts: Post[] = [
     categoryEN: "Documentation",
     categoryES: "Documentación",
     serviceSlug: "nie-certificate",
+    authorId: "claudia-gibernau",
     bodyEN: [
       {
         type: "p",
@@ -321,6 +325,7 @@ export const posts: Post[] = [
     categoryEN: "Nationality",
     categoryES: "Nacionalidad",
     serviceSlug: "spanish-nationality",
+    authorId: "marina-cortasa",
     bodyEN: [
       {
         type: "p",

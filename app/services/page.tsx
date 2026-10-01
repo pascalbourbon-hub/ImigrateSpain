@@ -5,13 +5,41 @@ import Footer from "@/components/Footer";
 import ServiceCard from "@/components/ServiceCard";
 import { services } from "@/lib/services";
 import { translations, Lang } from "@/lib/translations";
+import { getLang, localeAlternates, localePath, ogLocale } from "@/lib/i18n";
 
-export const metadata: Metadata = {
-  title: "Immigration Services & Fixed Prices in Spain",
-  description:
-    "Explore our full range of Spanish immigration services: NIE Certificate, Work Permit, Residence Permit, Digital Nomad Visa and Spanish Nationality — each with a transparent, all-inclusive fixed price.",
-  alternates: { canonical: "/services" },
+const meta = {
+  en: {
+    title: "Immigration Services & Fixed Prices in Spain",
+    description:
+      "Explore our full range of Spanish immigration services: NIE Certificate, Work Permit, Residence Permit, Digital Nomad Visa and Spanish Nationality — each with a transparent, all-inclusive fixed price.",
+  },
+  es: {
+    title: "Servicios de Extranjería y Precios Fijos en España",
+    description:
+      "Todos nuestros servicios de inmigración en España: certificado NIE, permiso de trabajo, permiso de residencia, visado de nómada digital y nacionalidad española, cada uno con un precio fijo y transparente.",
+  },
 };
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ lang?: string }>;
+}): Promise<Metadata> {
+  const lang = getLang(await searchParams);
+  const { title, description } = meta[lang];
+  return {
+    title,
+    description,
+    alternates: localeAlternates(lang, "/services"),
+    openGraph: {
+      type: "website",
+      title: `${title} | ImmigrationSpain`,
+      description,
+      url: localePath(lang, "/services"),
+      ...ogLocale(lang),
+    },
+  };
+}
 
 interface ServicesPageProps {
   searchParams: Promise<{ lang?: string }>;

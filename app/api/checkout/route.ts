@@ -39,8 +39,8 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: "payment",
-      success_url: `${origin}/services/${slug}?success=true${lang === "es" ? "&lang=es" : ""}`,
-      cancel_url: `${origin}/services/${slug}?cancelled=true${lang === "es" ? "&lang=es" : ""}`,
+      success_url: `${origin}${lang === "es" ? "/es" : ""}/services/${slug}?success=true`,
+      cancel_url: `${origin}${lang === "es" ? "/es" : ""}/services/${slug}?cancelled=true`,
       metadata: {
         service_slug: slug,
         lang: lang ?? "en",

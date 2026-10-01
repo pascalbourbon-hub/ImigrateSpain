@@ -7,9 +7,9 @@ import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import { getPostBySlug, posts, ContentBlock } from "@/lib/posts";
 import { getServiceBySlug } from "@/lib/services";
+import { getLawyerById } from "@/lib/lawyers";
 import { Lang } from "@/lib/translations";
-
-const siteUrl = "https://imigrate-spain.vercel.app";
+import { localePath, siteUrl, localeAlternates, ogLocale } from "@/lib/i18n";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -35,20 +35,20 @@ export async function generateMetadata({
 
   const title = lang === "es" ? post.titleES : post.titleEN;
   const description = lang === "es" ? post.excerptES : post.excerptEN;
-  const canonical = `/blog/${post.slug}`;
+  const path = `/blog/${post.slug}`;
 
   return {
     title,
     description,
-    alternates: { canonical },
+    alternates: localeAlternates(lang, path),
     openGraph: {
       type: "article",
       title: `${title} | ImmigrationSpain`,
       description,
-      url: `${siteUrl}${canonical}`,
-      locale: lang === "es" ? "es_ES" : "en_US",
+      url: localePath(lang, path),
+      ...ogLocale(lang),
       publishedTime: post.dateISO,
-      authors: ["ImmigrationSpain"],
+      authors: [getLawyerById(post.authorId)?.name ?? "ImmigrationSpain"],
     },
     twitter: {
       card: "summary_large_image",
@@ -112,12 +112,11 @@ function ArticleBody({ blocks }: { blocks: ContentBlock[] }) {
 function BlogPostContent({ lang, slug }: { lang: Lang; slug: string }) {
   const post = getPostBySlug(slug);
   if (!post) notFound();
-
-  const langParam = lang === "es" ? "?lang=es" : "";
   const title = lang === "es" ? post.titleES : post.titleEN;
   const category = lang === "es" ? post.categoryES : post.categoryEN;
   const body = lang === "es" ? post.bodyES : post.bodyEN;
 
+  const author = getLawyerById(post.authorId);
   const service = getServiceBySlug(post.serviceSlug);
   const serviceName = service
     ? lang === "es"
@@ -134,7 +133,7 @@ function BlogPostContent({ lang, slug }: { lang: Lang; slug: string }) {
         <section className="bg-slate-900 border-b border-slate-800 py-12">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <Link
-              href={`/blog${langParam}`}
+              href={localePath(lang, `/blog`)}
               className="inline-flex items-center text-slate-400 hover:text-amber-400 text-sm font-medium transition-colors mb-8"
             >
               {lang === "es" ? "← Volver al blog" : "← Back to Blog"}
@@ -148,7 +147,16 @@ function BlogPostContent({ lang, slug }: { lang: Lang; slug: string }) {
               {title}
             </h1>
             <div className="flex items-center gap-3 text-sm text-slate-500">
-              <span>ImmigrationSpain</span>
+              {author ? (
+                <Link
+                  href={`${localePath(lang, "/about")}#${author.id}`}
+                  className="text-slate-300 hover:text-amber-400 transition-colors"
+                >
+                  {author.name} — {lang === "es" ? author.roleES : author.roleEN}
+                </Link>
+              ) : (
+                <span>ImmigrationSpain</span>
+              )}
               <span>·</span>
               <time dateTime={post.dateISO}>{formatDate(post.dateISO, lang)}</time>
               <span>·</span>
@@ -181,7 +189,7 @@ function BlogPostContent({ lang, slug }: { lang: Lang; slug: string }) {
                         : "Let our specialist lawyers handle the entire process for you at a transparent, fixed price."}
                     </p>
                     <Link
-                      href={`/services/${service.slug}${langParam}`}
+                      href={localePath(lang, `/services/${service.slug}`)}
                       className="inline-flex items-center bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-6 py-3 rounded-xl transition-colors"
                     >
                       {lang === "es"
@@ -207,7 +215,7 @@ function BlogPostContent({ lang, slug }: { lang: Lang; slug: string }) {
                 .map((p) => (
                   <Link
                     key={p.slug}
-                    href={`/blog/${p.slug}${langParam}`}
+                    href={localePath(lang, `/blog/${p.slug}`)}
                     className="flex items-center justify-between gap-4 bg-slate-700/40 hover:bg-slate-700 border border-slate-600/50 hover:border-amber-500/40 rounded-xl px-5 py-4 transition-colors group"
                   >
                     <span className="text-slate-300 group-hover:text-white text-sm font-medium">
@@ -236,7 +244,8 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
 
   const title = lang === "es" ? post.titleES : post.titleEN;
   const description = lang === "es" ? post.excerptES : post.excerptEN;
-  const canonical = `${siteUrl}/blog/${post.slug}`;
+  const canonical = `${siteUrl}${localePath(lang, `/blog/${post.slug}`)}`;
+  const author = getLawyerById(post.authorId);
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -245,12 +254,17 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
     description,
     datePublished: post.dateISO,
     dateModified: post.dateISO,
-    inLanguage: lang === "es" ? "es-ES" : "en-US",
-    author: {
-      "@type": "Organization",
-      name: "ImmigrationSpain",
-      url: siteUrl,
-    },
+    inLanguage: lang === "es" ? "es-ES" : "en",
+    author: author
+      ? {
+          "@type": "Person",
+          name: author.name,
+          jobTitle: lang === "es" ? author.roleES : author.roleEN,
+          knowsAbout: lang === "es" ? author.specialtyES : author.specialtyEN,
+          url: `${siteUrl}${localePath(lang, "/about")}#${author.id}`,
+          worksFor: { "@type": "LegalService", name: "ImmigrationSpain", url: siteUrl },
+        }
+      : { "@type": "Organization", name: "ImmigrationSpain", url: siteUrl },
     publisher: {
       "@type": "Organization",
       name: "ImmigrationSpain",

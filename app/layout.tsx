@@ -1,14 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { headers } from "next/headers";
 import "./globals.css";
 import InstallPrompt from "@/components/InstallPrompt";
+import { siteUrl } from "@/lib/i18n";
 
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
-
-const siteUrl = "https://imigrate-spain.vercel.app";
 
 const defaultTitle = "ImmigrationSpain — Expert Immigration Lawyers in Spain";
 const defaultDescription =
@@ -23,9 +23,6 @@ export const metadata: Metadata = {
   description: defaultDescription,
   keywords:
     "immigration spain, NIE certificate, work permit spain, digital nomad visa spain, residence permit spain, spanish nationality",
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
     siteName: "ImmigrationSpain",
@@ -51,13 +48,16 @@ export const viewport: Viewport = {
   themeColor: "#0F172A",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Set by proxy.ts from the URL prefix (/es/*).
+  const lang = (await headers()).get("x-lang") === "es" ? "es" : "en";
+
   return (
-    <html lang="en" className={`${inter.className} h-full`}>
+    <html lang={lang} className={`${inter.className} h-full`}>
       <body className="min-h-full flex flex-col bg-slate-900 text-slate-100 antialiased">
         {children}
         <InstallPrompt />

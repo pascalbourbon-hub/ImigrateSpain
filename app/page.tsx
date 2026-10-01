@@ -7,15 +7,41 @@ import ServiceCard from "@/components/ServiceCard";
 import JsonLd from "@/components/JsonLd";
 import { services } from "@/lib/services";
 import { translations, Lang } from "@/lib/translations";
+import { localePath, getLang, localeAlternates, ogLocale, siteUrl } from "@/lib/i18n";
 
-const siteUrl = "https://imigrate-spain.vercel.app";
-
-export const metadata: Metadata = {
-  title: "Expert Immigration Lawyers in Spain — NIE, Visas & Nationality",
-  description:
-    "ImmigrationSpain is Spain's most trusted immigration law firm. Get help with NIE Certificate, Work Permit, Residence Permit, Digital Nomad Visa and Spanish Nationality at transparent fixed prices.",
-  alternates: { canonical: "/" },
+const meta = {
+  en: {
+    title: "Expert Immigration Lawyers in Spain — NIE, Visas & Nationality",
+    description:
+      "ImmigrationSpain is Spain's most trusted immigration law firm. Get help with NIE Certificate, Work Permit, Residence Permit, Digital Nomad Visa and Spanish Nationality at transparent fixed prices.",
+  },
+  es: {
+    title: "Abogados de Extranjería en España — NIE, Visados y Nacionalidad",
+    description:
+      "Abogados especializados en extranjería: NIE, permiso de trabajo, residencia, visado de nómada digital y nacionalidad española. Precios fijos y transparentes, atención en español e inglés.",
+  },
 };
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ lang?: string }>;
+}): Promise<Metadata> {
+  const lang = getLang(await searchParams);
+  const { title, description } = meta[lang];
+  return {
+    title,
+    description,
+    alternates: localeAlternates(lang, "/"),
+    openGraph: {
+      type: "website",
+      title: `${title} | ImmigrationSpain`,
+      description,
+      url: localePath(lang, "/"),
+      ...ogLocale(lang),
+    },
+  };
+}
 
 interface HomeProps {
   searchParams: Promise<{ lang?: string }>;
@@ -124,7 +150,6 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 
 function HomeContent({ lang }: { lang: Lang }) {
   const t = translations[lang].home;
-  const langParam = lang === "es" ? "?lang=es" : "";
 
   return (
     <div className="flex flex-col flex-1">
@@ -226,7 +251,7 @@ function HomeContent({ lang }: { lang: Lang }) {
                 {t.ctaButton}
               </a>
               <a
-                href={`/contact${langParam}`}
+                href={localePath(lang, `/contact`)}
                 className="bg-white/20 hover:bg-white/30 text-slate-900 font-semibold px-8 py-4 rounded-xl border border-slate-900/20 transition-colors"
               >
                 {lang === "es" ? "Hablar con un abogado" : "Talk to a Lawyer"}
@@ -249,7 +274,7 @@ export default async function Home({ searchParams }: HomeProps) {
     "@context": "https://schema.org",
     "@type": "LegalService",
     name: "ImmigrationSpain",
-    url: siteUrl,
+    url: `${siteUrl}${localePath(lang, "/")}`,
     description:
       "Spain's most trusted immigration law firm, helping international clients with NIE certificates, work permits, residence permits, the Digital Nomad Visa and Spanish nationality.",
     areaServed: {
@@ -277,7 +302,7 @@ export default async function Home({ searchParams }: HomeProps) {
           "@type": "Service",
           name: service.nameEN,
           description: service.descriptionEN,
-          url: `${siteUrl}/services/${service.slug}`,
+          url: `${siteUrl}${localePath(lang, `/services/${service.slug}`)}`,
         },
       })),
     },

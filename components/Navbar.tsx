@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams, usePathname } from "next/navigation";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { translations, Lang } from "@/lib/translations";
+import { localePath, stripLocale } from "@/lib/i18n";
 
 interface NavbarProps {
   lang: Lang;
@@ -13,26 +14,23 @@ export default function Navbar({ lang }: NavbarProps) {
   const t = translations[lang].nav;
   const langT = translations[lang].lang;
   const [menuOpen, setMenuOpen] = useState(false);
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  // Path without the /es prefix, so active state and the language switch work in both languages.
+  const pathname = stripLocale(usePathname());
+
+  // The root layout sets <html lang> on the first load only; keep it in sync on client-side navigation.
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   function getLangHref(targetLang: Lang) {
-    const params = new URLSearchParams(searchParams.toString());
-    if (targetLang === "en") {
-      params.delete("lang");
-    } else {
-      params.set("lang", targetLang);
-    }
-    const qs = params.toString();
-    return `${pathname}${qs ? `?${qs}` : ""}`;
+    return localePath(targetLang, pathname);
   }
 
   function navLink(href: string, label: string) {
     const isActive = pathname === href || (href !== "/" && pathname.startsWith(href));
-    const langParam = lang === "es" ? "?lang=es" : "";
     return (
       <Link
-        href={`${href}${langParam}`}
+        href={localePath(lang, href)}
         className={`text-sm font-medium transition-colors hover:text-amber-400 ${
           isActive ? "text-amber-400" : "text-slate-300"
         }`}
@@ -48,7 +46,7 @@ export default function Navbar({ lang }: NavbarProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href={lang === "es" ? "/?lang=es" : "/"} className="flex items-center gap-2 flex-shrink-0">
+          <Link href={localePath(lang, "/")} className="flex items-center gap-2 flex-shrink-0">
             <span className="text-amber-400 text-2xl">⚖️</span>
             <span className="font-bold text-white text-lg leading-tight">
               Immigration<span className="text-amber-400">Spain</span>
@@ -74,7 +72,7 @@ export default function Navbar({ lang }: NavbarProps) {
               {langT.switch}
             </Link>
             <Link
-              href={lang === "es" ? "/contact?lang=es" : "/contact"}
+              href={localePath(lang, "/contact")}
               className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold text-sm px-5 py-2 rounded-lg transition-colors"
             >
               {t.cta}
@@ -117,7 +115,7 @@ export default function Navbar({ lang }: NavbarProps) {
           {navLink("/blog", t.blog)}
           {navLink("/contact", t.contact)}
           <Link
-            href={lang === "es" ? "/contact?lang=es" : "/contact"}
+            href={localePath(lang, "/contact")}
             className="block mt-3 bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold text-sm px-5 py-2.5 rounded-lg text-center transition-colors"
             onClick={() => setMenuOpen(false)}
           >

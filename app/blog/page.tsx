@@ -5,20 +5,41 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { posts } from "@/lib/posts";
 import { Lang } from "@/lib/translations";
+import { localePath, getLang, localeAlternates, ogLocale } from "@/lib/i18n";
 
-export const metadata: Metadata = {
-  title: "Spain Immigration Blog — Visas, NIE & Nationality Guides",
-  description:
-    "Expert guides on Spanish immigration: the Digital Nomad Visa, NIE number, Spanish nationality by residency and more — written by ImmigrationSpain's specialist lawyers.",
-  alternates: { canonical: "/blog" },
-  openGraph: {
-    type: "website",
-    title: "Spain Immigration Blog | ImmigrationSpain",
+const meta = {
+  en: {
+    title: "Spain Immigration Blog — Visas, NIE & Nationality Guides",
     description:
-      "Expert guides on Spanish immigration: the Digital Nomad Visa, NIE number, Spanish nationality by residency and more.",
-    url: "https://imigrate-spain.vercel.app/blog",
+      "Expert guides on Spanish immigration: the Digital Nomad Visa, NIE number, Spanish nationality by residency and more — written by ImmigrationSpain's specialist lawyers.",
+  },
+  es: {
+    title: "Blog de Extranjería — Guías de Visados, NIE y Nacionalidad",
+    description:
+      "Guías prácticas sobre inmigración en España: visado de nómada digital, número NIE, nacionalidad española por residencia y más, escritas por nuestros abogados especialistas.",
   },
 };
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ lang?: string }>;
+}): Promise<Metadata> {
+  const lang = getLang(await searchParams);
+  const { title, description } = meta[lang];
+  return {
+    title,
+    description,
+    alternates: localeAlternates(lang, "/blog"),
+    openGraph: {
+      type: "website",
+      title: `${title} | ImmigrationSpain`,
+      description,
+      url: localePath(lang, "/blog"),
+      ...ogLocale(lang),
+    },
+  };
+}
 
 interface BlogPageProps {
   searchParams: Promise<{ lang?: string }>;
@@ -33,7 +54,6 @@ function formatDate(iso: string, lang: Lang): string {
 }
 
 function BlogContent({ lang }: { lang: Lang }) {
-  const langParam = lang === "es" ? "?lang=es" : "";
 
   return (
     <div className="flex flex-col flex-1">
@@ -74,7 +94,7 @@ function BlogContent({ lang }: { lang: Lang }) {
                 return (
                   <Link
                     key={post.slug}
-                    href={`/blog/${post.slug}${langParam}`}
+                    href={localePath(lang, `/blog/${post.slug}`)}
                     className="flex flex-col bg-slate-800 border border-slate-700/50 rounded-2xl p-6 hover:border-amber-500/40 transition-colors group"
                   >
                     <div className="flex items-center gap-3 mb-4">
@@ -115,13 +135,13 @@ function BlogContent({ lang }: { lang: Lang }) {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link
-                href={`/services${langParam}`}
+                href={localePath(lang, `/services`)}
                 className="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-8 py-3.5 rounded-xl transition-colors"
               >
                 {lang === "es" ? "Ver servicios" : "View Services"}
               </Link>
               <Link
-                href={`/contact${langParam}`}
+                href={localePath(lang, `/contact`)}
                 className="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-8 py-3.5 rounded-xl border border-slate-600 transition-colors"
               >
                 {lang === "es" ? "Contactar ahora" : "Contact Us Now"}

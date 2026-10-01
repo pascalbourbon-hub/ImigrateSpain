@@ -8,8 +8,7 @@ import BuyButton from "@/components/BuyButton";
 import JsonLd from "@/components/JsonLd";
 import { getServiceBySlug, services } from "@/lib/services";
 import { translations, Lang } from "@/lib/translations";
-
-const siteUrl = "https://imigrate-spain.vercel.app";
+import { localePath, siteUrl, localeAlternates, ogLocale } from "@/lib/i18n";
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
@@ -35,19 +34,22 @@ export async function generateMetadata({
 
   const name = lang === "es" ? service.nameES : service.nameEN;
   const description = lang === "es" ? service.descriptionES : service.descriptionEN;
-  const title = `${name} in Spain — €${service.price} Fixed Fee | Lawyers`;
-  const canonical = `/services/${service.slug}`;
+  const title =
+    lang === "es"
+      ? `${name} en España — Precio Fijo €${service.price} | Abogados`
+      : `${name} in Spain — €${service.price} Fixed Fee | Lawyers`;
+  const path = `/services/${service.slug}`;
 
   return {
     title,
     description,
-    alternates: { canonical },
+    alternates: localeAlternates(lang, path),
     openGraph: {
       type: "website",
       title: `${name} | ImmigrationSpain`,
       description,
-      url: `${siteUrl}${canonical}`,
-      locale: lang === "es" ? "es_ES" : "en_US",
+      url: localePath(lang, path),
+      ...ogLocale(lang),
     },
     twitter: {
       card: "summary_large_image",
@@ -72,7 +74,6 @@ function ServiceContent({
   if (!service) notFound();
 
   const t = translations[lang].service;
-  const langParam = lang === "es" ? "?lang=es" : "";
   const name = lang === "es" ? service.nameES : service.nameEN;
   const description = lang === "es" ? service.descriptionES : service.descriptionEN;
   const longDescription = lang === "es" ? service.longDescriptionES : service.longDescriptionEN;
@@ -110,7 +111,7 @@ function ServiceContent({
         <section className="bg-slate-900 border-b border-slate-800 py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Link
-              href={`/services${langParam}`}
+              href={localePath(lang, `/services`)}
               className="inline-flex items-center text-slate-400 hover:text-amber-400 text-sm font-medium transition-colors mb-8"
             >
               {t.backToServices}
@@ -225,7 +226,7 @@ function ServiceContent({
                 .map((s) => (
                   <Link
                     key={s.slug}
-                    href={`/services/${s.slug}${langParam}`}
+                    href={localePath(lang, `/services/${s.slug}`)}
                     className="flex items-center gap-2 bg-slate-700/50 hover:bg-slate-700 border border-slate-600/50 hover:border-amber-500/50 rounded-xl px-4 py-3 transition-colors group"
                   >
                     <span>{s.icon}</span>
@@ -264,7 +265,8 @@ export default async function ServicePage({ params, searchParams }: ServicePageP
     name,
     description,
     serviceType: service.nameEN,
-    url: `${siteUrl}/services/${service.slug}`,
+    inLanguage: lang === "es" ? "es-ES" : "en",
+    url: `${siteUrl}${localePath(lang, `/services/${service.slug}`)}`,
     areaServed: {
       "@type": "Country",
       name: "Spain",
@@ -278,7 +280,7 @@ export default async function ServicePage({ params, searchParams }: ServicePageP
       "@type": "Offer",
       priceCurrency: "EUR",
       price: service.price,
-      url: `${siteUrl}/services/${service.slug}`,
+      url: `${siteUrl}${localePath(lang, `/services/${service.slug}`)}`,
       availability: "https://schema.org/InStock",
     },
   };
